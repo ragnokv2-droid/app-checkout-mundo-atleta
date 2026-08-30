@@ -20,14 +20,18 @@
           "color": "#0d9488"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "1.9.25"
+          }
+        }
+      ]
     ],
     "extra": {
-      "apiUrl": "https://mundo-atleta-checkout.vercel.app",
-      "eas": {
-        "projectId": "COLE_AQUI_DEPOIS"
-      }
-    },
-    "owner": "SEU_USUARIO_EXPO"
+      "apiUrl": "https://mundo-atleta-checkout.vercel.app"
+    }
   }
 }
