@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "Mundo Atleta",
+    "slug": "mundo-atleta-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "mundoatleta",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "shop.mundoatleta.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#0d9488"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-notifications",
+        {
+          "color": "#0d9488"
+        }
+      ],
+      "expo-secure-store"
+    ],
+    "extra": {
+      "apiUrl": "https://mundo-atleta-checkout.vercel.app",
+      "eas": {
+        "projectId": "COLE_AQUI_DEPOIS"
+      }
+    },
+    "owner": "SEU_USUARIO_EXPO"
+  }
+}
