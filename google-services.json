@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "459756646075",
+    "project_id": "mundo-atleta",
+    "storage_bucket": "mundo-atleta.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459756646075:android:b96c6be5b12cfdcf60c39e",
+        "android_client_info": {
+          "package_name": "shop.mundoatleta.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqtep5oPFXOpxagYtr2XhdNSawMzVcTW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
