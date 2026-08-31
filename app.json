@@ -6,19 +6,27 @@
     "orientation": "portrait",
     "scheme": "mundoatleta",
     "userInterfaceStyle": "light",
+
+    "icon": "./assets/icon.png",
+
     "android": {
       "package": "shop.mundoatleta.app",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "backgroundColor": "#0d9488"
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
       }
     },
+
     "plugins": [
       "expo-router",
       [
         "expo-notifications",
         {
-          "color": "#0d9488"
+          "color": "#0d9488",
+          "sounds": [
+            "./assets/cash_register.wav"
+          ]
         }
       ],
       "expo-secure-store",
@@ -32,6 +40,7 @@
       ],
       "expo-asset"
     ],
+
     "extra": {
       "apiUrl": "https://mundo-atleta-checkout.vercel.app",
       "router": {
@@ -41,6 +50,7 @@
         "projectId": "9713f2de-44eb-45b9-905c-3356297719b0"
       }
     },
+
     "owner": "appcheckoutmundoatleta"
   }
 }

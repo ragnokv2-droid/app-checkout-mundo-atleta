@@ -31,11 +31,12 @@ export async function setupNotifications(password: string) {
   }
 
   if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync("orders", {
+    await Notifications.setNotificationChannelAsync("orders-v2", {
       name: "Pedidos",
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
       lightColor: "#0d9488",
+      sound: "cash_register.wav",
     });
   }
 
@@ -46,8 +47,10 @@ export async function setupNotifications(password: string) {
   const tokenData = await Notifications.getExpoPushTokenAsync(
     projectId ? { projectId } : undefined
   );
+
   const token = tokenData.data;
 
   await registerPushToken(password, token);
+
   return token;
 }
