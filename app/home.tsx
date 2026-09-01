@@ -1,4 +1,3 @@
-cat > app/home.tsx <<'EOF'
 import { useCallback, useEffect, useState } from "react";
 import {
   View,
