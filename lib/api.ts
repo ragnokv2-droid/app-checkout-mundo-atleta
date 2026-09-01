@@ -30,6 +30,7 @@ export type Lead = {
   status: string;
   etapa: string;
   frete: string;
+  source?: "LP-GROK" | "LP-GPT" | "SHOPIFY" | "DIRETO" | string;
 };
 
 export async function loginAndLoad(
