@@ -1,3 +1,4 @@
+cat > app/home.tsx <<'EOF'
 import { useCallback, useEffect, useState } from "react";
 import {
   View,
@@ -67,7 +68,6 @@ export default function HomeScreen() {
 
       setPassword(pwd);
 
-      // Somente erro real de login/dashboard pode deslogar.
       try {
         await load(pwd);
       } catch {
@@ -76,7 +76,6 @@ export default function HomeScreen() {
         return;
       }
 
-      // Erro de push NÃO derruba o login.
       try {
         const token = await setupNotifications(pwd);
         setPushOk(!!token);
@@ -85,7 +84,6 @@ export default function HomeScreen() {
         setPushOk(false);
       }
 
-      // Erro ao buscar configurações também NÃO derruba o login.
       try {
         const cfg = await getConfig();
         setPurchaseOnPix(Boolean(cfg?.config?.purchaseOnPixGenerate));
@@ -157,9 +155,7 @@ export default function HomeScreen() {
   );
 
   const pixList = leads.filter((l) =>
-    ["aguardando_pix", "pago"].includes(
-      String(l.status).toLowerCase()
-    )
+    ["aguardando_pix", "pago"].includes(String(l.status).toLowerCase())
   );
 
   function LeadCard({

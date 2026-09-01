@@ -1,3 +1,4 @@
+cat > lib/api.ts <<'EOF'
 import Constants from "expo-constants";
 
 export const API_URL =
@@ -46,15 +47,25 @@ export async function loginAndLoad(
   const res = await fetch(`${API_URL}/api/dashboard?${params}`, {
     cache: "no-store",
   });
+
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Senha incorreta");
-  return json as { stats: Stats; recentes: Lead[] };
+
+  if (!res.ok) {
+    throw new Error(json.error || "Senha incorreta");
+  }
+
+  return json as {
+    stats: Stats;
+    recentes: Lead[];
+  };
 }
 
 export async function markPaid(password: string, lead: Lead) {
   const res = await fetch(`${API_URL}/api/dashboard`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       password,
       row: lead.row,
@@ -62,37 +73,71 @@ export async function markPaid(password: string, lead: Lead) {
       valor: lead.valor,
     }),
   });
+
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Erro ao marcar pago");
+
+  if (!res.ok) {
+    throw new Error(json.error || "Erro ao marcar pago");
+  }
+
   return json;
 }
 
-export async function registerPushToken(password: string, token: string) {
+export async function registerPushToken(
+  password: string,
+  token: string
+) {
   const res = await fetch(`${API_URL}/api/notifications/register`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password, token }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      password,
+      token,
+    }),
   });
+
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Erro ao registrar push");
+
+  if (!res.ok) {
+    throw new Error(json.error || "Erro ao registrar push");
+  }
+
   return json;
 }
 
 export async function getConfig() {
-  const res = await fetch(`${API_URL}/api/config`, { cache: "no-store" });
+  const res = await fetch(`${API_URL}/api/config`, {
+    cache: "no-store",
+  });
+
   return res.json();
 }
 
 export async function saveConfig(
   password: string,
-  data: { purchaseOnPixGenerate?: boolean; cardEnabled?: boolean }
+  data: {
+    purchaseOnPixGenerate?: boolean;
+    cardEnabled?: boolean;
+  }
 ) {
   const res = await fetch(`${API_URL}/api/config`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password, ...data }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      password,
+      ...data,
+    }),
   });
+
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Erro ao salvar");
+
+  if (!res.ok) {
+    throw new Error(json.error || "Erro ao salvar");
+  }
+
   return json;
 }
