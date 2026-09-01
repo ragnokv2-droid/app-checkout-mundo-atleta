@@ -184,9 +184,15 @@ export default function HomeScreen() {
           {lead.frete ? ` · ${lead.frete}` : ""}
         </Text>
 
-        <Text style={styles.badge}>
-          {lead.status || "—"}
-        </Text>
+        <View style={styles.badgeRow}>
+          <Text style={styles.badge}>
+            {lead.status || "—"}
+          </Text>
+
+          <Text style={styles.sourceBadge}>
+            Origem: {lead.source || "DIRETO"}
+          </Text>
+        </View>
 
         <View style={styles.row}>
           {!!lead.telefone && (
@@ -619,13 +625,32 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
+  badgeRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: 6,
+    marginTop: 8,
+  },
+
   badge: {
     alignSelf: "flex-start",
-    marginTop: 8,
     fontSize: 11,
     fontWeight: "700",
     color: "#0f766e",
     backgroundColor: "#ccfbf1",
+    overflow: "hidden",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 20,
+  },
+
+  sourceBadge: {
+    alignSelf: "flex-start",
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#475569",
+    backgroundColor: "#f1f5f9",
     overflow: "hidden",
     paddingHorizontal: 8,
     paddingVertical: 3,
