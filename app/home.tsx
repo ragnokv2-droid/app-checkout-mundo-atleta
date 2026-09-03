@@ -174,6 +174,12 @@ export default function HomeScreen() {
           {lead.nome || "Sem nome"}
         </Text>
 
+        {!!lead.data && (
+          <Text style={styles.dateText}>
+            {lead.data}
+          </Text>
+        )}
+
         <Text style={styles.cardSub}>
           {lead.telefone || "—"} · R$ {lead.valor || "0"}
           {lead.frete ? ` · ${lead.frete}` : ""}
@@ -187,6 +193,12 @@ export default function HomeScreen() {
           <Text style={styles.sourceBadge}>
             Origem: {lead.source || "DIRETO"}
           </Text>
+
+          {!!lead.utm_campaign && (
+            <Text style={styles.campaignBadge}>
+              Campanha: {lead.utm_campaign}
+            </Text>
+          )}
         </View>
 
         <View style={styles.row}>
@@ -614,6 +626,13 @@ const styles = StyleSheet.create({
     color: "#111",
   },
 
+  dateText: {
+    fontSize: 11,
+    color: "#64748b",
+    marginTop: 4,
+    fontWeight: "600",
+  },
+
   cardSub: {
     fontSize: 12,
     color: "#888",
@@ -646,6 +665,18 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#475569",
     backgroundColor: "#f1f5f9",
+    overflow: "hidden",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 20,
+  },
+
+  campaignBadge: {
+    alignSelf: "flex-start",
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#1d4ed8",
+    backgroundColor: "#eff6ff",
     overflow: "hidden",
     paddingHorizontal: 8,
     paddingVertical: 3,
