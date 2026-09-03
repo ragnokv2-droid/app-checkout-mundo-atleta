@@ -31,6 +31,7 @@ export type Lead = {
   etapa: string;
   frete: string;
   source?: "LP-GROK" | "LP-GPT" | "SHOPIFY" | "DIRETO" | string;
+  utm_campaign?: string;
 };
 
 export async function loginAndLoad(
