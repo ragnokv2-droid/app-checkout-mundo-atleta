@@ -138,29 +138,71 @@ export default function HomeScreen() {
     const full = n.startsWith("55") ? n : `55${n}`;
     const nomeCliente =
       String(lead.nome || "").trim().split(" ")[0] || "cliente";
-    const valorPedido = lead.valor ? `R$ ${lead.valor}` : "R$ 0,00";
+
+    const valorRaw = String(lead.valor || "0")
+      .replace(/R\$/gi, "")
+      .replace(/\s/g, "")
+      .trim();
+
+    let valorNumero = 0;
+
+    if (valorRaw.includes(",")) {
+      valorNumero = Number(valorRaw.replace(/\./g, "").replace(",", "."));
+    } else {
+      valorNumero = Number(valorRaw);
+    }
+
+    const valorPedido = Number.isFinite(valorNumero)
+      ? valorNumero.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      : "R$ 0,00";
+
     const statusNormalizado = String(lead.status || "").toLowerCase();
+    const enderecoPedido =
+      String(lead.endereco || "").trim() || "Endereço informado no pedido";
+    const codigoPix = String(lead.pix_copia_cola || "").trim();
 
     let mensagem = "";
 
     if (statusNormalizado === "aguardando_pix") {
-      mensagem = `Olá *${nomeCliente}*!
-*Seu pedido do Aparelho Abdominal AB Tomic foi reservado com sucesso!*
-*Resumo do pedido:*
-* Produto: Aparelho Abdominal AB Tomic
-* Valor total: *${valorPedido}*
-Nos próximos instantes, você receberá o código Pix (copia e cola) para realizar o pagamento de forma rápida e segura.
-Assim que o pagamento for confirmado, iniciaremos a separação do seu pedido para envio.
-Se tiver qualquer dúvida, é só responder esta mensagem. Estamos à disposição!`;
+      mensagem = `Olá, ${nomeCliente}!
+Seu pedido foi recebido com sucesso na *Mundo Atleta!*
+
+*RESUMO DO PEDIDO:*
+*Produto:* Aparelho Abdominal AB Tomic
+*Valor total:* *${valorPedido}*
+*Forma de pagamento:* PIX
+*Status:* Aguardando pagamento
+
+*ENDEREÇO DE ENTREGA:*
+${enderecoPedido}
+
+*PAGAMENTO:*
+Assim que o pagamento for identificado, seu pedido será confirmado e seguirá para preparação e envio.
+
+Se ainda não realizou o pagamento, utilize o PIX abaixo:
+
+*PIX Copia e Cola:*
+${codigoPix || "Consulte o código PIX gerado no checkout."}`;
     } else if (statusNormalizado.includes("abandonado")) {
       mensagem = `Olá, *${nomeCliente}*!
+
 Percebemos que você iniciou a compra do *Aparelho Abdominal AB TOMIC*, mas o pedido ainda não foi concluído.
+
 *Seu carrinho continua reservado por tempo limitado*, então você pode finalizar a compra em poucos segundos pelo link abaixo:
+
 https://pagamento.mundoatleta.shop/
+
 Se precisar de qualquer ajuda, é só responder esta mensagem. Será um prazer atender você!`;
     } else {
       mensagem = `Olá, *${nomeCliente}*!
+
 Aqui é da Mundo Atleta. Estamos entrando em contato sobre o seu pedido.
+
 Se precisar de qualquer ajuda, é só responder esta mensagem.`;
     }
 

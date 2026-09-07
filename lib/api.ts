@@ -31,7 +31,14 @@ export type Lead = {
   etapa: string;
   frete: string;
   source?: "LP-GROK" | "LP-GPT" | "SHOPIFY" | "DIRETO" | string;
+  fbclid?: string;
+  utm_source?: string;
+  utm_medium?: string;
   utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+  endereco?: string;
+  pix_copia_cola?: string;
 };
 
 export async function loginAndLoad(
@@ -44,12 +51,20 @@ export async function loginAndLoad(
   if (dateFrom) params.set("dateFrom", dateFrom);
   if (dateTo) params.set("dateTo", dateTo);
 
-  const res = await fetch(`${API_URL}/api/dashboard?${params}`, {
+  const res = await fetch(`${API_URL}/api/dashboard?${params.toString()}`, {
     cache: "no-store",
   });
+
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Senha incorreta");
-  return json as { stats: Stats; recentes: Lead[] };
+
+  if (!res.ok) {
+    throw new Error(json.error || "Senha incorreta");
+  }
+
+  return json as {
+    stats: Stats;
+    recentes: Lead[];
+  };
 }
 
 export async function markPaid(password: string, lead: Lead) {
@@ -63,8 +78,13 @@ export async function markPaid(password: string, lead: Lead) {
       valor: lead.valor,
     }),
   });
+
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Erro ao marcar pago");
+
+  if (!res.ok) {
+    throw new Error(json.error || "Erro ao marcar como pago");
+  }
+
   return json;
 }
 
@@ -74,26 +94,56 @@ export async function registerPushToken(password: string, token: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ password, token }),
   });
+
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Erro ao registrar push");
+
+  if (!res.ok) {
+    throw new Error(json.error || "Erro ao registrar push");
+  }
+
   return json;
 }
 
 export async function getConfig() {
-  const res = await fetch(`${API_URL}/api/config`, { cache: "no-store" });
-  return res.json();
+  const res = await fetch(`${API_URL}/api/config`, {
+    cache: "no-store",
+  });
+
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw new Error(json.error || "Erro ao carregar configurações");
+  }
+
+  return json as {
+    config?: {
+      purchaseOnPixGenerate?: boolean;
+      cardEnabled?: boolean;
+    };
+  };
 }
 
 export async function saveConfig(
   password: string,
-  data: { purchaseOnPixGenerate?: boolean; cardEnabled?: boolean }
+  config: {
+    purchaseOnPixGenerate?: boolean;
+    cardEnabled?: boolean;
+  }
 ) {
   const res = await fetch(`${API_URL}/api/config`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password, ...data }),
+    body: JSON.stringify({
+      password,
+      ...config,
+    }),
   });
+
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Erro ao salvar");
+
+  if (!res.ok) {
+    throw new Error(json.error || "Erro ao salvar configurações");
+  }
+
   return json;
 }
